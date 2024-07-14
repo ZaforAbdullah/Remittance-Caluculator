@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Remittance Incentive Caluculator</h2>
+
+<p>Enter the total amount and commission rate:</p>
+
+<form id="inputForm">
+  Total Amount: <input type="number" id="totalAmount" required><br><br>
+  Commission Rate (%): <input type="number" id="commissionRate" step="0.1" required><br><br>
+  <input type="button" value="Calculate" onclick="calculate()">
+</form>
+
+<p id="demo"></p>
+
+<script>
+function calculateAmountToSend(totalAmount, commissionRate) {
+    // Convert the commission rate from percentage to decimal
+    let commissionRateDecimal = commissionRate / 100;
+
+    // Calculate the amount to send
+    let amountToSend = totalAmount / (1 + commissionRateDecimal);
+
+    return Math.round(amountToSend * 100) / 100; // Round to 2 decimal places
+}
+
+function calculate() {
+    // Get the input values
+    let totalAmount = document.getElementById("totalAmount").value;
+    let commissionRate = document.getElementById("commissionRate").value;
+
+    // Validate the inputs
+    if(totalAmount && commissionRate) {
+        let result = calculateAmountToSend(totalAmount, commissionRate);
+        document.getElementById("demo").innerHTML = "Amount to Send: " + result;
+    } else {
+        document.getElementById("demo").innerHTML = "Please enter both values.";
+    }
+}
+</script>
+
+</body>
+</html>
