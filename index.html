@@ -6,13 +6,26 @@
 
 <p>Enter the total amount and commission rate:</p>
 
-<form id="inputForm">
+<form id="remittance">
   Total Amount: <input type="number" id="totalAmount" required><br><br>
   Commission Rate (%): <input type="number" id="commissionRate" step="0.1" required><br><br>
-  <input type="button" value="Calculate" onclick="calculate()">
+  <input type="button" value="Calculate" onclick="GenCalculateAmountToSend()">
+</form>
+  
+<p id="remittance"></p>
+  
+<h2>Forex Caluculator</h2>
+
+<p>Enter the total amount, exchange rate, unit:</p>
+
+<form id="forex">
+  Amount: <input type="number" id="amount" required><br><br>
+  Exchange Rate: <input type="number" id="exchangeRate" required><br><br>
+  Unit: <input type="number" id="unit" required><br><br>
+  <input type="button" value="Calculate" onclick="GenCalculateForex()">
 </form>
 
-<p id="demo"></p>
+<p id="forex"></p>
 
 <script>
 function calculateAmountToSend(totalAmount, commissionRate) {
@@ -25,7 +38,7 @@ function calculateAmountToSend(totalAmount, commissionRate) {
     return Math.round(amountToSend * 100) / 100; // Round to 2 decimal places
 }
 
-function calculate() {
+function GenCalculateAmountToSend() {
     // Get the input values
     let totalAmount = document.getElementById("totalAmount").value;
     let commissionRate = document.getElementById("commissionRate").value;
@@ -33,10 +46,28 @@ function calculate() {
     // Validate the inputs
     if(totalAmount && commissionRate) {
         let result = calculateAmountToSend(totalAmount, commissionRate);
-        document.getElementById("demo").innerHTML = "Amount to Send: " + result;
+        document.getElementById("remittance").innerHTML = "Amount to Send: " + result;
     } else {
-        document.getElementById("demo").innerHTML = "Please enter both values.";
+        document.getElementById("remittance").innerHTML = "Please enter both values.";
     }
+}
+function calculateForex(amount, exchangeRate, unit) {
+    return (amount / exchangeRate) * unit;
+}
+  
+function GenCalculateForex() {
+   // Get the input values
+   let amount = document.getElementById("amount").value;
+   let exchangeRate = document.getElementById("exchangeRate").value;
+   let unit = document.getElementById("unit").value;
+
+   // Validate the inputs
+   if(amount && exchangeRate && unit) {
+       let result = calculateForex(amount, exchangeRate, unit);
+       document.getElementById("forex").innerHTML = "Amount: " + result.toFixed(2);
+   } else {
+       document.getElementById("forex").innerHTML = "Please enter all values.";
+   }
 }
 </script>
 
