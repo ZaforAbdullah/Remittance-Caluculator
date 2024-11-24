@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gold Profit Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+    }
+    h1 {
+      color: goldenrod;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, button {
+      margin-top: 5px;
+      padding: 10px;
+      width: 100%;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Gold Profit Calculator</h1>
+<form id="goldProfitForm">
+  <label for="initialPrice">Initial Price of Gold (e.g., 9677.50):</label>
+  <input type="number" id="initialPrice" placeholder="Enter initial price (RM)" required>
+
+  <label for="currentPrice">Current Price of Gold (e.g., 19130):</label>
+  <input type="number" id="currentPrice" placeholder="Enter current price (RM)" required>
+
+  <label for="inflationRate">Average Annual Inflation Rate (e.g., 3% as 3):</label>
+  <input type="number" id="inflationRate" placeholder="Enter inflation rate (%)" required>
+
+  <label for="years">Number of Years:</label>
+  <input type="number" id="years" placeholder="Enter number of years" required>
+
+  <button type="button" onclick="calculateProfit()">Calculate</button>
+</form>
+
+<div class="result" id="result">
+  <strong>Result:</strong>
+  <p id="profitOutput">Enter the details above to calculate the profit and per annum return.</p>
+</div>
+
+<script>
+  function calculateProfit() {
+    // Input values
+    const initialPrice = parseFloat(document.getElementById('initialPrice').value);
+    const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+    const inflationRate = parseFloat(document.getElementById('inflationRate').value) / 100;
+    const years = parseInt(document.getElementById('years').value);
+
+    // Validate inputs
+    if (isNaN(initialPrice) || isNaN(currentPrice) || isNaN(inflationRate) || isNaN(years)) {
+      alert('Please enter valid numbers for all fields.');
+      return;
+    }
+
+    // Calculate inflation-adjusted price
+    const inflationAdjustedPrice = initialPrice * Math.pow(1 + inflationRate, years);
+
+    // Calculate profit
+    const rawProfit = currentPrice - initialPrice;
+    const inflationAdjustedProfit = currentPrice - inflationAdjustedPrice;
+
+    // Calculate per annum return (CAGR)
+    const cagr = (Math.pow(currentPrice / initialPrice, 1 / years) - 1) * 100;
+
+    // Update the result
+    const profitOutput = `
+      Raw Profit: RM ${rawProfit.toFixed(2)}<br>
+      Inflation Adjusted Initial Price: RM ${inflationAdjustedPrice.toFixed(2)}<br>
+      Inflation Adjusted Profit: RM ${inflationAdjustedProfit.toFixed(2)}<br>
+      Per Annum Return (CAGR): ${cagr.toFixed(2)}%
+    `;
+
+    document.getElementById('profitOutput').innerHTML = profitOutput;
+  }
+</script>
+
+</body>
+</html>
